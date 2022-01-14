@@ -1,5 +1,7 @@
 <template>
-    <div class="grid grid-cols-2 divide-x-4 p-8 h-full">
+    <div class="grid grid-cols-2 divide-x-4 p-8 h-full " :class="{
+        'blur-sm': visible
+    }">
         <div class="grid grid-rows-5 divide-y-4 p-8 w-full h-full">
             <div class="row-span-2 flex flex-row items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -9,27 +11,95 @@
                 </svg>
                 <span class="text-6xl ml-16">=<span class="text-dark_yellow"> ${{ balance }}</span></span>
             </div>
-            <div class="row-span-3">
-                <ul>
+            <div class="mt-8 row-span-3 relative w-full">
+                <ul class="pr-6 h-5/6 absolute overflow-auto w-full scrollbar scrollbar-thumb-dark_yellow scrollbar-thumb-rounded scrollbar-thin hover:scrollbar-thumb-white">
                     <li v-for="t in transactions" :key="t.id">
-                        <Transaction :id="t.id" :name="t.name" :amount="t.amount"></Transaction>
+                        <Transaction :id="t.id" :name="t.name" :amount="t.amount" @click="openModal(t)"></Transaction>
                     </li>
                 </ul>
+                <button class=" absolute bottom-0 w-full border-dark_yellow border-4 p-2 bg-dark_yellow text-primary font-bold rounded-md hover:bg-white hover:border-white transition-all">
+                    Add Transaction
+                </button>
             </div>
         </div>
-        <div></div>
     </div>
+    <Modal :toggled="visible" @close="visible = false">
+        <div class="w-full h-full px-10 py-20" v-if="edit_transation">
+            <form>
+                <div class="w-full h-full">
+                    <div class="mb-10">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" v-model="edit_transation.name" class="mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
+                    </div>
+                    <label for="price">Amount</label>
+                    <div class="grid grid-cols-12 gap-3">
+                        <input type="text" id="price" v-model="edit_transation.amount" class=" col-span-11 mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
+                        <span class="text-center border-2 rounded-md mt-2 border-dark_yellow pt-2 font-extrabold">$</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </Modal>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import Transaction from '../components/Transaction.vue';
+import Modal from '../components/Modal.vue'
+
+const visible = ref(false)
 const balance = ref(19.57)
+const edit_transation = ref(null)
 const transactions = ref([
     {
         id: 1,
         amount: 90.34,
         name: "asdasd"
+    },
+    {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+    {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+    {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+    {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+        {
+            id: 2,
+            amount: -23.45,
+            name: "valorant card"
+        },
+    {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+        {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
+    },
+        {
+        id: 2,
+        amount: -23.45,
+        name: "valorant card"
     }
 ])
+const openModal = (t) => {
+    visible.value = true;
+    edit_transation.value = t;
+}
+
 </script> 

@@ -40,8 +40,8 @@ const total = ref(97.43)
 				</li>
 			</ul>
 		</div>
-		<div class="h-full col-span-11 border-white border-4 rounded-md mr-4">
-			<span class="float-right py-2 px-4 border-l-4 border-b-4 rounded-bl-md text-lg flex flex-row items-center">
+		<div class="h-full col-span-11 border-white border-4 rounded-md mr-4 relative">
+			<span class="fixed right-5 py-2 px-4 border-l-4 border-b-4 rounded-bl-md text-lg flex flex-row items-center">
 				Oinkers
 				<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 					width="32" height="32"
