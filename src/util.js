@@ -1,7 +1,8 @@
 export const calculate_balance = (transactions) => {
     let sum = 0
-    for(t of transactions) {
-        sum += transactions.amount
+    for(let t of transactions) {
+        sum += t.amount
     }
-    return Math.round(sum * 100) / 100
+    const ret = Math.round(sum * 100) / 100   
+    return ret
 }

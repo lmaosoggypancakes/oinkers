@@ -17,25 +17,29 @@
                         <Transaction :id="t.id" :name="t.name" :amount="t.amount" @click="openModal(t)"></Transaction>
                     </li>
                 </ul>
-                <button class=" absolute bottom-0 w-full border-dark_yellow border-4 p-2 bg-dark_yellow text-primary font-bold rounded-md hover:bg-white hover:border-white transition-all">
+                <button class=" absolute bottom-0 w-full border-dark_yellow border-4 p-2 bg-dark_yellow text-primary font-bold rounded-md hover:bg-white hover:border-white transition-all" @click="openModal({ name: '', amount: 0}, create=true)">
                     Add Transaction
                 </button>
             </div>
         </div>
     </div>
     <Modal :toggled="visible" @close="visible = false">
-        <div class="w-full h-full px-10 py-20" v-if="edit_transation">
-            <form>
-                <div class="w-full h-full">
-                    <div class="mb-10">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" v-model="edit_transation.name" class="mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
-                    </div>
+        <div class="w-full h-full px-10 py-20"  v-if="edit_transation">
+            <form class="flex flex-col justify-between w-full h-full" @submit.prevent="handleSubmit()">  
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" v-model="edit_transation.name" class="mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none" :class="{ 'focus:border-4': !validEdit, 'focus:border-danger': !validEdit}" autocomplete="off">
+                </div>
+                <div>
                     <label for="price">Amount</label>
                     <div class="grid grid-cols-12 gap-3">
-                        <input type="text" id="price" v-model="edit_transation.amount" class=" col-span-11 mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
-                        <span class="text-center border-2 rounded-md mt-2 border-dark_yellow pt-2 font-extrabold">$</span>
+                        <input type="number" id="price" v-model="edit_transation.amount" class=" col-span-11 mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
+                    <span class="text-center border-2 rounded-md mt-2 border-dark_yellow pt-2 font-extrabold">$</span>
                     </div>
+                </div>
+                <div class="flex flex-row items-stretch gap-6">
+                    <button type="submit" class="border-2 p-6 flex-1 rounded-md border-dark_yellow hover:bg-white hover:text-primary hover:border-white hover:transition-all" @click="closeModal()" :disabled="!validEdit">Save</button>
+                    <button class="border-2 p-6 flex-1 rounded-md border-dark_yellow hover:bg-danger2 hover:border-danger2 hover:transition-all" @click="removeTransaction(edit_transation)" >Delete</button>
                 </div>
             </form>
         </div>
@@ -43,63 +47,45 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import Transaction from '../components/Transaction.vue';
 import Modal from '../components/Modal.vue'
+import { calculate_balance } from '../util';
 
 const visible = ref(false)
-const balance = ref(19.57)
 const edit_transation = ref(null)
-const transactions = ref([
-    {
-        id: 1,
-        amount: 90.34,
-        name: "asdasd"
-    },
-    {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-    {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-    {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-    {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-        {
-            id: 2,
-            amount: -23.45,
-            name: "valorant card"
-        },
-    {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-        {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    },
-        {
-        id: 2,
-        amount: -23.45,
-        name: "valorant card"
-    }
-])
-const openModal = (t) => {
+const transactions = ref([])
+const balance = computed(() => calculate_balance(transactions.value))
+const validEdit = computed(() => edit_transation.value.name.length !== 0 && edit_transation.value.amount != 0)
+const openModal = (t, create=false) => {
     visible.value = true;
+    if (create) {
+        t.create = true
+    }
     edit_transation.value = t;
 }
+const closeModal = () => {
+    visible.value = false;
+    console.log(edit_transation.value)
+    if (edit_transation.value.create) {
+        delete edit_transation.value.create
+        transactions.value.push(edit_transation.value)
+    }
+    edit_transation.value = null
 
+}
+const removeTransaction = (t) => {
+    closeModal()
+    transactions.value.splice(transactions.value.indexOf(t), 1)
+}
+const handleSubmit = () => {
+    console.table("hi")
+}
 </script> 
+
+<style>
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}</style>
