@@ -6,3 +6,9 @@ export const calculate_balance = (transactions) => {
     const ret = Math.round(sum * 100) / 100   
     return ret
 }
+
+export const running_total = (transactions) => {
+    const amounts = transactions.map(t => t.amount)
+    const reducer = (sum => value => sum += value)(0)
+    return amounts.map(reducer)
+}

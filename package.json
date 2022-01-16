@@ -9,7 +9,9 @@
     "electron:start": "electron ."
   },
   "dependencies": {
+    "chart.js": "^3.7.0",
     "vue": "^3.2.25",
+    "vue-chart-3": "^3.0.7",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
