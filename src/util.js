@@ -1,4 +1,5 @@
 export const calculate_balance = (transactions) => {
+    console.log(transactions);
     let sum = 0
     for(let t of transactions) {
         sum += t.amount

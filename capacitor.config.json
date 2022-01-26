@@ -1,0 +1,10 @@
+{
+  "appId": "me.josefmacera.oinkers",
+  "appName": "Oinkers",
+  "webDir": "dist/",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "http",
+    "url": "http://192.168.1.122:3000"
+  }
+}

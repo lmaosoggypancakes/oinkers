@@ -1,6 +1,6 @@
 {
   "name": "oinkers",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "main.js",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,9 @@
     "electron:start": "electron ."
   },
   "dependencies": {
+    "@capacitor/android": "^3.4.0",
+    "@capacitor/cli": "^3.4.0",
+    "@capacitor/core": "^3.4.0",
     "chart.js": "^3.7.0",
     "vue": "^3.2.25",
     "vue-chart-3": "^3.0.7",

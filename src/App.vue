@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-const total = ref(97.43)
+if (!localStorage.getItem('__transactions')) {
+	localStorage.setItem('__transactions', JSON.stringify([]))
+}
 </script>
 
 <template>	
@@ -56,9 +57,11 @@ const total = ref(97.43)
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 body { 
 	margin: 0;
 	padding: 0;
+	font-family: 'JetBrains Mono'
 }
 .tooltip {
 	@apply invisible absolute;

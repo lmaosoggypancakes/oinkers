@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 divide-x-4 p-8 h-full " :class="{
+    <div class="grid grid-cols-2 divide-x-4 p-8 h-full sm:bg-danger lg:bg-primary " :class="{
         'blur-sm': visible
     }">
         <div class="grid grid-rows-5 divide-y-4 p-8 w-full h-full">
@@ -26,11 +26,12 @@
             <LineChart :chart-data="chartData" :options="chartConfig"></LineChart>
             <div class="mt-10 grid grid-rows-2 h-full">
                 <span class="text-5xl w-full">Your Goal</span>
-                <span class="text-4xl hover:underline" :class="{
+                <span class="text-4xl hover:underline hover:cursor-pointer" :class="{
                     'text-danger2': !metGoal,
                     'text-brown_green': metGoal
-                }">${{ goal }}
+                }" v-if="!editGoal" @click="editGoal = !editGoal">${{ goal }}
                 </span>
+                <input type="number" class="text-4xl h-1/3 bg-primary text-center text-brown_green border-b-white border-b-2 focus:outline-none focus:transition-all focus:border-dark_yellow  focus:text-dark_yellow"  v-model="goal" v-else @focusout="editGoal = !editGoal">
                 <span  v-if="!metGoal">You're <strong>{{ Math.round(balance / goal * 100 * 100) / 100 }}%</strong> there!</span>
                 <span v-else> Nice job!</span>
             </div>
@@ -69,26 +70,13 @@ import { CategoryScale, Chart, LinearScale, LineController, LineElement} from 'c
 import { PointElement } from 'chart.js';
 const visible = ref(false)
 const edit_transation = ref(null)
-const transactions = ref([
-    {
-        amount: 500,
-        name: "Paycheck",
-        timestamp: new Date()
-    },
-    {
-        amount: -100,
-        name: "Valorant skin",
-        timestamp: new Date()
-    },
-    {
-        name: "NFT sale",
-        amount: 200,
-        timestamp: new Date()
-    }
-])
+const editGoal = ref(false)
+const transactions = ref(JSON.parse(localStorage.getItem('__transactions')))
+console.log(transactions.value)
 const balance = computed(() => calculate_balance(transactions.value))
 const validEdit = computed(() => edit_transation.value.name.length !== 0)
-const goal = ref(500)
+const goal = ref(parseInt(localStorage.getItem("__goal")))
+console.log("Goal value: " + goal.value)
 const metGoal = computed(() => balance.value >= goal.value)
 const goalLine = computed(() => {
     let ret = []
@@ -104,9 +92,12 @@ Chart.defaults.font.family = 'JetBrains Mono'
 Chart.defaults.font.size = 12
 Chart.defaults.elements.line.borderColor = '#D79921'
 Chart.defaults.scale.beginAtZero = true
+const watcher = watch(goal, (e, _e) => {
+    localStorage.setItem("__goal",e)
+})
 const chartData = computed(() => {
     return {
-        labels: transactions.value.map(t => t.timestamp.toLocaleDateString('en-US')),
+        labels: transactions.value.map(t => t.timestamp),
         datasets: [
             {
                 data: running_total(transactions.value),
@@ -115,7 +106,6 @@ const chartData = computed(() => {
             {
                 data: goalLine.value,
                 borderColor: '#83A598',
-                borderDash: [7]
             }
         ],
     }
@@ -147,8 +137,10 @@ const closeModal = () => {
     visible.value = false;
     if (edit_transation.value.create) {
         delete edit_transation.value.create
-        edit_transation.value.timestamp = new Date()
+        const now = new Date()
+        edit_transation.value.timestamp = `${now.getMonth() + 1} / ${now.getFullYear()}`
         transactions.value.push(edit_transation.value)
+        localStorage.setItem("__transactions", JSON.stringify(transactions.value))
     }
     edit_transation.value = null
 
