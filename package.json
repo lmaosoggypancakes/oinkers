@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "main": "main.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "electron:start": "electron ."
+    "electron:start": "electron .",
+    "android": "cap run android --target=Pixel_XL_API_27"
   },
   "dependencies": {
     "@capacitor/android": "^3.4.0",

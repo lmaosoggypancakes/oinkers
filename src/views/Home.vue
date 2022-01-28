@@ -1,72 +1,161 @@
 <template>
-    <div class="grid grid-cols-2 divide-x-4 p-8 h-full sm:bg-danger lg:bg-primary " :class="{
-        'blur-sm': visible
+    <div class="p-8 h-full" :class="{
+        'blur-md': visible
     }">
-        <div class="grid grid-rows-5 divide-y-4 p-8 w-full h-full">
-            <div class="row-span-2 flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                    width="256" height="256"
-                    viewBox="0 0 172 172"
-                    style="fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ebdbb2"><path d="M124.57376,26.12373c-0.54981,0.01612 -1.06915,0.25624 -1.43758,0.66466l-13.58513,15.05682c-8.61404,-2.5446 -17.55318,-3.8191 -26.53513,-3.78323c-17.97266,0 -34.90023,4.89786 -47.66048,13.79181c-12.21603,8.514 -19.26404,19.73214 -20.05652,31.79465h-6.56456c-1.1132,0 -2.01562,0.90243 -2.01562,2.01563c0,1.1132 0.90243,2.01563 2.01563,2.01563h6.53635c0.69472,14.00859 9.71362,26.81316 25.04178,35.48471v20.61685c0,1.1132 0.90243,2.01563 2.01563,2.01563h18.8125c1.1132,0 2.01563,-0.90243 2.01563,-2.01562v-12.04717c13.07011,2.75334 26.57051,2.75334 39.64063,0v12.04717c0,1.1132 0.90243,2.01563 2.01563,2.01563h18.8125c1.1132,0 2.01563,-0.90243 2.01563,-2.01562v-20.62669c9.48049,-5.46402 16.65291,-12.50052 20.84978,-20.45216l17.01012,-2.00513c1.01535,-0.11914 1.78071,-0.97953 1.78073,-2.00184v-25.36c0.00123,-1.03056 -0.77512,-1.89607 -1.79976,-2.00644l-16.72011,-1.79779c-4.02823,-7.8297 -10.94689,-14.82097 -20.11294,-20.32094v-21.07155c0.00006,-0.54485 -0.22047,-1.06652 -0.61132,-1.44613c-0.39085,-0.3796 -0.91874,-0.58481 -1.46336,-0.56884zM122.61719,33.38116v16.9819c0.00034,0.71978 0.38447,1.38476 1.00781,1.74464c9.36157,5.40859 16.27947,12.38749 20.00469,20.17856c0.30139,0.63027 0.90766,1.05953 1.60226,1.13445l16.01805,1.72299v21.75917l-16.30084,1.92049c-0.67854,0.0801 -1.27031,0.49848 -1.57208,1.11148c-3.89184,7.90495 -11.06042,14.91802 -20.72971,20.28026c-0.6409,0.35547 -1.03836,1.03079 -1.03799,1.76367v19.78685h-14.78125v-12.54451c-0.00014,-0.6155 -0.2815,-1.1972 -0.76394,-1.57941c-0.48244,-0.38222 -1.11307,-0.52306 -1.71228,-0.38241c-14.05391,3.34514 -28.69676,3.34514 -42.75067,0c-0.59921,-0.14065 -1.22985,0.00019 -1.71228,0.38241c-0.48244,0.38222 -0.7638,0.96392 -0.76394,1.57941v12.54451h-14.78125v-19.78685c-0.00015,-0.73881 -0.40449,-1.41832 -1.05374,-1.77089c-15.27541,-8.29967 -24.03659,-20.79428 -24.03659,-34.27612c0,-24.17205 28.60363,-43.83788 63.76251,-43.83788c9.00571,-0.04082 17.9643,1.30129 26.56268,3.97942c0.75267,0.23822 1.57512,0.0151 2.1042,-0.57083zM77.10159,48.70569c-0.02781,0.00117 -0.05559,0.00292 -0.08333,0.00525c-27.7743,2.36601 -47.41373,16.78343 -50.03303,36.72938c-0.14495,1.10396 0.63248,2.1164 1.73644,2.26134c1.10396,0.14495 2.1164,-0.63248 2.26134,-1.73644c2.36265,-17.99214 20.567,-31.03876 46.37775,-33.23747c1.09173,-0.09468 1.90783,-1.04421 1.83736,-2.13778c-0.07047,-1.09357 -1.00168,-1.9305 -2.09653,-1.88429zM122.43807,66.97426c-3.46361,-0.0001 -6.58623,2.08626 -7.91174,5.2862c-1.32552,3.19994 -0.59289,6.88327 1.85626,9.33241c2.44914,2.44914 6.13247,3.18177 9.33241,1.85626c3.19994,-1.32551 5.2863,-4.44813 5.2862,-7.91174c-0.00532,-4.72708 -3.83605,-8.5578 -8.56312,-8.56313zM122.2491,71.00944c1.23362,-0.05141 2.43481,0.40271 3.32589,1.25737c0.89107,0.85466 1.39488,2.03588 1.39495,3.27057c-0.00237,2.50201 -2.02987,4.5298 -4.53187,4.53253c-2.46761,0.00197 -4.48332,-1.97056 -4.53477,-4.43763c-0.05145,-2.46707 1.88026,-4.52193 4.34581,-4.62284z"></path></g></g>
-                </svg>
-                <span class="text-6xl ml-16">=<span class="text-dark_yellow"> ${{ balance }}</span></span>
+        <div class="w-full flex flex-col h-full">
+            <div class="w-full h-1/2 flex flex-col items-center">
+                <Logo />
             </div>
-            <div class="mt-8 row-span-3 relative w-full">
-                <ul class="pr-6 h-5/6 absolute overflow-auto w-full scrollbar scrollbar-thumb-dark_yellow scrollbar-thumb-rounded scrollbar-thin hover:scrollbar-thumb-white">
-                    <li v-for="t in transactions" :key="t.id">
-                        <Transaction :id="t.id" :name="t.name" :amount="t.amount" :timestamp="t.timestamp" @click="openModal(t)"></Transaction>
-                    </li>
+            <span class="text-center text-5xl py-5 text-brown_green">${{ balance }}</span>
+            <div class="flex flex-row justify-center mb-2 pb-2">
+                <button
+                    class="border-white border-4 p-2 rounded-xl w-full bg-white text-primary"
+                    @click="openModal({}, true)"
+                >Add Transaction</button>
+            </div>
+            <div class="w-full relative h-40 overflow-y-scroll pt-4">
+                <ul class="h-full w-full">
+                    <Transaction
+                        v-for="t in transactions"
+                        :id="t.id"
+                        :amount="t.amount"
+                        :name="t.name"
+                        :timestamp="t.timestamp"
+                        @click="openModal(t)"
+                    />
                 </ul>
-                <button class="absolute bottom-0 w-full border-dark_yellow border-4 p-2 bg-dark_yellow text-primary font-bold rounded-md hover:bg-white hover:border-white transition-all" @click="openModal({ name: '', amount: 0}, create=true)">
-                    Add Transaction
-                </button>
-            </div>
-        </div>
-        <div class="p-8 text-center mt-4 w-full h-full flex flex-col gap-10">
-            <LineChart :chart-data="chartData" :options="chartConfig"></LineChart>
-            <div class="mt-10 grid grid-rows-2 h-full">
-                <span class="text-5xl w-full">Your Goal</span>
-                <span class="text-4xl hover:underline hover:cursor-pointer" :class="{
-                    'text-danger2': !metGoal,
-                    'text-brown_green': metGoal
-                }" v-if="!editGoal" @click="editGoal = !editGoal">${{ goal }}
-                </span>
-                <input type="number" class="text-4xl h-1/3 bg-primary text-center text-brown_green border-b-white border-b-2 focus:outline-none focus:transition-all focus:border-dark_yellow  focus:text-dark_yellow"  v-model="goal" v-else @focusout="editGoal = !editGoal">
-                <span  v-if="!metGoal">You're <strong>{{ Math.round(balance / goal * 100 * 100) / 100 }}%</strong> there!</span>
-                <span v-else> Nice job!</span>
             </div>
         </div>
     </div>
-    <Modal :toggled="visible" @close="visible = false">
-        <div class="w-full h-full px-10 py-20"  v-if="edit_transation">
-            <form class="flex flex-col justify-between w-full h-full" @submit.prevent>  
-                <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name" v-model="edit_transation.name" class="mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none" :class="{ 'focus:border-danger': !validEdit, 'focus:border-white': validEdit}" autocomplete="off">
-                </div>
-                <div>
-                    <label for="price">Amount</label>
-                    <div class="grid grid-cols-12 gap-3">
-                        <input type="number" id="price" v-model="edit_transation.amount" class=" col-span-11 mt-2 bg-primary border-dark_yellow rounded-md p-2 border-2 w-full focus:bg-white focus:text-primary focus:transition-all focus:outline-none focus:border-white">
-                    <span class="text-center border-2 rounded-md mt-2 border-dark_yellow pt-2 font-extrabold">$</span>
-                    </div>
-                </div>
-                <div class="flex flex-row items-stretch gap-6">
-                    <button type="submit" class="border-2 p-6 flex-1 rounded-md border-dark_yellow hover:bg-white hover:text-primary hover:border-white hover:transition-all" @click="closeModal()" :disabled="!validEdit">Save</button>
-                    <button class="border-2 p-6 flex-1 rounded-md border-dark_yellow hover:bg-danger2 hover:border-danger2 hover:transition-all" @click="removeTransaction(edit_transation)" >Delete</button>
-                </div>
-            </form>
-        </div>
+    <Modal :toggled="visible" @close="closeModal">
+        <form
+            class="px-6 w-full h-3/4 flex flex-col justify-around"
+            v-if="edit_transation"
+            @submit.prevent
+        >
+            <div>
+                <label class="text-center w-full block text-lg" for="name">Transaction Name</label>
+                <input
+                    v-model="edit_transation.name"
+                    type="text"
+                    id="name"
+                    class="outline-0 mt-1 bg-primary rounded-md border-2 border-white h-10 w-full text-white px-2 font-bold"
+                />
+            </div>
+            <div>
+                <label class="text-center w-full block text-lg">Amount</label>
+                <input
+                    type="number"
+                    v-model="edit_transation.amount"
+                    class="outline-0 my-1 bg-primary rounded-md border-2 border-white h-10 w-full text-white px-2 font-bold"
+                />
+            </div>
+            <div class="flex flex-row justify-around pt-2">
+                <button
+                    @click="removeTransaction"
+                    class="border-2 border-dark_yellow rounded-md p-4"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="48"
+                        height="48"
+                        viewBox="0 0 172 172"
+                        style=" fill:#000000;"
+                    >
+                        <g
+                            fill="none"
+                            fill-rule="nonzero"
+                            stroke="none"
+                            stroke-width="1"
+                            stroke-linecap="butt"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="10"
+                            stroke-dasharray
+                            stroke-dashoffset="0"
+                            font-family="none"
+                            font-weight="none"
+                            font-size="none"
+                            text-anchor="none"
+                            style="mix-blend-mode: normal"
+                        >
+                            <path d="M0,172v-172h172v172z" fill="none" />
+                            <g fill="#ebdbb2">
+                                <path
+                                    d="M126.85,172h-81.7c-9.1375,0 -16.6625,-6.9875 -17.2,-16.6625l-6.9875,-129.5375c0,-1.075 0.5375,-2.15 1.075,-3.225c0.5375,-1.075 2.15,-1.075 3.225,-1.075h122.0125c1.075,0 2.15,0.5375 2.6875,1.075c0.5375,0.5375 1.075,2.15 1.075,3.225l-6.9875,130.075c-0.5375,9.1375 -8.0625,16.125 -17.2,16.125zM29.5625,29.5625l6.45,125.775c0,4.8375 4.3,8.6 9.1375,8.6h81.1625c4.8375,0 9.1375,-3.7625 9.1375,-8.6l6.45,-125.775z"
+                                />
+                                <path
+                                    d="M168.2375,29.5625h-163.9375c-2.6875,0 -4.3,-1.6125 -4.3,-3.7625c0,-2.15 1.6125,-4.3 4.3,-4.3h163.9375c2.15,0 3.7625,1.6125 3.7625,4.3c0,2.6875 -1.6125,3.7625 -3.7625,3.7625z"
+                                />
+                                <path
+                                    d="M130.075,29.5625h-88.15c-1.6125,0 -2.6875,-1.075 -3.7625,-2.15c-0.5375,-1.075 -0.5375,-2.6875 0.5375,-4.3l13.975,-21.5c0.5375,-1.075 1.6125,-1.6125 3.225,-1.6125h60.2c1.6125,0 2.6875,0.5375 3.225,1.6125l13.975,21.5c1.075,1.075 1.075,2.6875 0,4.3c-0.5375,1.075 -1.6125,2.15 -3.225,2.15zM49.45,21.5h73.6375l-8.6,-13.4375h-56.4375z"
+                                />
+                                <path
+                                    d="M86,147.8125c-2.15,0 -4.3,-1.6125 -4.3,-4.3v-93.525c0,-2.15 1.6125,-4.3 4.3,-4.3c2.6875,0 4.3,1.6125 4.3,4.3v94.0625c0,2.15 -2.15,3.7625 -4.3,3.7625z"
+                                />
+                                <path
+                                    d="M60.7375,133.3c-2.15,0 -4.3,-1.6125 -4.3,-4.3v-64.5c0,-2.15 1.6125,-4.3 4.3,-4.3c2.6875,0 3.7625,2.15 3.7625,4.3v64.5c0,2.15 -1.6125,4.3 -3.7625,4.3z"
+                                />
+                                <path
+                                    d="M111.2625,133.3c-2.15,0 -4.3,-1.6125 -4.3,-4.3v-64.5c0,-2.15 1.6125,-4.3 4.3,-4.3c2.6875,0 4.3,1.6125 4.3,4.3v64.5c0,2.15 -2.15,4.3 -4.3,4.3z"
+                                />
+                            </g>
+                        </g>
+                    </svg>
+                </button>
+                <button
+                    class="border-2 border-dark_yellow rounded-md p-4"
+                    @click="createTransaction"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="48"
+                        height="48"
+                        viewBox="0 0 172 172"
+                        style=" fill:#000000;"
+                    >
+                        <g
+                            fill="none"
+                            fill-rule="nonzero"
+                            stroke="none"
+                            stroke-width="1"
+                            stroke-linecap="butt"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="10"
+                            stroke-dasharray
+                            stroke-dashoffset="0"
+                            font-family="none"
+                            font-weight="none"
+                            font-size="none"
+                            text-anchor="none"
+                            style="mix-blend-mode: normal"
+                        >
+                            <path d="M0,172v-172h172v172z" fill="none" />
+                            <g fill="#ebdbb2">
+                                <path
+                                    d="M24.08,13.76c-5.66036,0 -10.32,4.65964 -10.32,10.32v123.84c0,5.66037 4.65964,10.32 10.32,10.32h123.84c5.66037,0 10.32,-4.65963 10.32,-10.32v-102.51469c-0.00018,-0.91228 -0.36269,-1.78715 -1.00781,-2.43219l-28.20531,-28.20531c-0.64504,-0.64512 -1.5199,-1.00764 -2.43219,-1.00781zM24.08,20.64h17.2v41.28c0,5.66037 4.65963,10.32 10.32,10.32h65.36c5.66037,0 10.32,-4.65963 10.32,-10.32v-39.17031l24.08,24.08v101.09031c0,1.90763 -1.53237,3.44 -3.44,3.44h-17.2v-51.6c0,-5.66037 -4.65963,-10.32 -10.32,-10.32h-68.8c-5.66037,0 -10.32,4.65963 -10.32,10.32v51.6h-17.2c-1.90764,0 -3.44,-1.53237 -3.44,-3.44v-123.84c0,-1.90764 1.53236,-3.44 3.44,-3.44zM48.16,20.64h72.24v41.28c0,1.90763 -1.53237,3.44 -3.44,3.44h-65.36c-1.90763,0 -3.44,-1.53237 -3.44,-3.44zM99.76,27.52c-1.89978,0.00019 -3.43981,1.54022 -3.44,3.44v24.08c0.00019,1.89978 1.54022,3.43981 3.44,3.44h10.32c1.89978,-0.00019 3.43981,-1.54022 3.44,-3.44v-24.08c-0.00019,-1.89978 -1.54022,-3.43981 -3.44,-3.44zM103.2,34.4h3.44v17.2h-3.44zM51.6,96.32h68.8c1.90763,0 3.44,1.53237 3.44,3.44v51.6h-75.68v-51.6c0,-1.90763 1.53237,-3.44 3.44,-3.44zM27.52,137.6v6.88h6.88v-6.88zM137.6,137.6v6.88h6.88v-6.88z"
+                                />
+                            </g>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+        </form>
     </Modal>
 </template>
 
 <script setup>
+const emits = defineEmits(['navbarBlur'])
 import { computed, ref, watch } from 'vue'
 import Transaction from '../components/Transaction.vue';
+import Logo from '../components/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { calculate_balance, running_total } from '../util';
 import { LineChart } from 'vue-chart-3'
-import { CategoryScale, Chart, LinearScale, LineController, LineElement} from 'chart.js'
+import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
 import { PointElement } from 'chart.js';
 const visible = ref(false)
 const edit_transation = ref(null)
@@ -93,7 +182,7 @@ Chart.defaults.font.size = 12
 Chart.defaults.elements.line.borderColor = '#D79921'
 Chart.defaults.scale.beginAtZero = true
 const watcher = watch(goal, (e, _e) => {
-    localStorage.setItem("__goal",e)
+    localStorage.setItem("__goal", e)
 })
 const chartData = computed(() => {
     return {
@@ -126,15 +215,16 @@ const chartConfig = ref({
         }
     }
 })
-const openModal = (t, create=false) => {
+const openModal = (t, create = false) => {
+    emits('navbarBlur')
     visible.value = true;
     if (create) {
         t.create = true
     }
     edit_transation.value = t;
 }
-const closeModal = () => {
-    visible.value = false;
+
+const createTransaction = () => {
     if (edit_transation.value.create) {
         delete edit_transation.value.create
         const now = new Date()
@@ -142,21 +232,26 @@ const closeModal = () => {
         transactions.value.push(edit_transation.value)
         localStorage.setItem("__transactions", JSON.stringify(transactions.value))
     }
+    closeModal()
+}
+const closeModal = () => {
+    emits('navbarBlur')
+    visible.value = false;
     edit_transation.value = null
-
 }
 const removeTransaction = (t) => {
     closeModal()
     transactions.value.splice(transactions.value.indexOf(t), 1)
+    localStorage.setItem("__transactions", JSON.stringify(transactions.value))
 }
 
 </script> 
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-  }
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 </style>
