@@ -148,73 +148,77 @@
 </template>
 
 <script setup>
+import { store } from '../util/store';
 const emits = defineEmits(['navbarBlur'])
 import { computed, ref, watch } from 'vue'
 import Transaction from '../components/Transaction.vue';
 import Logo from '../components/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { calculate_balance, running_total } from '../util';
-import { LineChart } from 'vue-chart-3'
-import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
-import { PointElement } from 'chart.js';
+// import { LineChart } from 'vue-chart-3'
+// import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
+// import { PointElement } from 'chart.js';
+// const editGoal = ref(false)
 const visible = ref(false)
 const edit_transation = ref(null)
-const editGoal = ref(false)
-const transactions = ref(JSON.parse(localStorage.getItem('__transactions')))
-console.log(transactions.value)
+const transactions = ref(await store.transactions.getTransactions())
 const balance = computed(() => calculate_balance(transactions.value))
-const validEdit = computed(() => edit_transation.value.name.length !== 0)
-const goal = ref(parseInt(localStorage.getItem("__goal")))
-console.log("Goal value: " + goal.value)
-const metGoal = computed(() => balance.value >= goal.value)
-const goalLine = computed(() => {
-    let ret = []
-    for (let i in transactions.value) {
-        console.log('asdfdas');
-        ret.push(goal.value)
-    }
-    return ret
-})
-Chart.register(LineController, PointElement, LineElement, CategoryScale, LinearScale)
-Chart.defaults.color = '#EBDBB2'
-Chart.defaults.font.family = 'JetBrains Mono'
-Chart.defaults.font.size = 12
-Chart.defaults.elements.line.borderColor = '#D79921'
-Chart.defaults.scale.beginAtZero = true
-const watcher = watch(goal, (e, _e) => {
-    localStorage.setItem("__goal", e)
-})
-const chartData = computed(() => {
-    return {
-        labels: transactions.value.map(t => t.timestamp),
-        datasets: [
-            {
-                data: running_total(transactions.value),
-                backgroundColor: ['#D79921']
-            },
-            {
-                data: goalLine.value,
-                borderColor: '#83A598',
-            }
-        ],
-    }
-})
-const chartConfig = ref({
-    responsize: true,
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            grid: {
-                color: '#A89984'
-            }
-        },
-        y: {
-            grid: {
-                color: '#A89984'
-            }
-        }
-    }
-})
+// const validEdit = computed(() => edit_transation.value.name.length !== 0)
+// const goal = ref(parseInt(localStorage.getItem("__goal")))
+// console.log("Goal value: " + goal.value)
+// const metGoal = computed(() => balance.value >= goal.value)
+// const goalLine = computed(() => {
+//     let ret = []
+//     for (let i in transactions.value) {
+//         console.log('asdfdas');
+//         ret.push(goal.value)
+//     }
+//     return ret
+// })
+
+
+
+
+// Chart.register(LineController, PointElement, LineElement, CategoryScale, LinearScale)
+// Chart.defaults.color = '#EBDBB2'
+// Chart.defaults.font.family = 'JetBrains Mono'
+// Chart.defaults.font.size = 12
+// Chart.defaults.elements.line.borderColor = '#D79921'
+// Chart.defaults.scale.beginAtZero = true
+// const watcher = watch(goal, (e, _e) => {
+//     localStorage.setItem("__goal", e)
+// })
+// const chartData = computed(() => {
+//     return {
+//         labels: transactions.value.map(t => t.timestamp),
+//         datasets: [
+//             {
+//                 data: running_total(transactions.value),
+//                 backgroundColor: ['#D79921']
+//             },
+//             {
+//                 data: goalLine.value,
+//                 borderColor: '#83A598',
+//             }
+//         ],
+//     }
+// })
+// const chartConfig = ref({
+//     responsize: true,
+//     maintainAspectRatio: false,
+//     scales: {
+//         x: {
+//             grid: {
+//                 color: '#A89984'
+//             }
+//         },
+//         y: {
+//             grid: {
+//                 color: '#A89984'
+//             }
+//         }
+//     }
+// })
 const openModal = (t, create = false) => {
     emits('navbarBlur')
     visible.value = true;
@@ -227,10 +231,7 @@ const openModal = (t, create = false) => {
 const createTransaction = () => {
     if (edit_transation.value.create) {
         delete edit_transation.value.create
-        const now = new Date()
-        edit_transation.value.timestamp = `${now.getMonth() + 1} / ${now.getFullYear()}`
-        transactions.value.push(edit_transation.value)
-        localStorage.setItem("__transactions", JSON.stringify(transactions.value))
+        store.transactions.addTransaction(edit_transation)
     }
     closeModal()
 }
@@ -240,9 +241,8 @@ const closeModal = () => {
     edit_transation.value = null
 }
 const removeTransaction = (t) => {
+    store.transactions.removeTrasaction(t)
     closeModal()
-    transactions.value.splice(transactions.value.indexOf(t), 1)
-    localStorage.setItem("__transactions", JSON.stringify(transactions.value))
 }
 
 </script> 

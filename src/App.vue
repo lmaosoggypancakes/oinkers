@@ -1,19 +1,29 @@
 <script setup>
 import { ref } from 'vue';
-if (!localStorage.getItem('__transactions')) {
-	localStorage.setItem('__transactions', JSON.stringify([]))
-}
+import { router } from './util/router';
+import { store } from './util/store';
 const navbarBlur = ref(false)
+
+if (!store.token.isValid()) {
+	router.push("/login")
+}
+const logout = () => {
+	store.token.clearToken()
+	router.push("/login")
+}
 </script>
 
 <template>
 	<div class="bg-primary text-white h-full relative" >
 		<div class="w-screen h-full relative grid grid-rows-6">
-			<div class="row-span-5">
+			<div :class="{
+				'row-span-5':  store.token.isValid(),
+				'row-span-6': !store.token.isValid()
+			}">
 				<router-view @navbarBlur="navbarBlur = !navbarBlur"></router-view>
 			</div>
-			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}">
-				<ul class="flex flex-row justify-between w-full">
+			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="store.token.isValid()">
+				<ul class="flex flex-row justify-around w-full">
 					<li>
 						<router-link to="/account">
 							<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -33,13 +43,13 @@ const navbarBlur = ref(false)
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/logout">
+						<button @click="logout">
 							<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 								width="64" height="64"
 								viewBox="0 0 172 172"
 								style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ebdbb2"><path d="M26.875,10.75c-8.86035,0 -16.125,7.26465 -16.125,16.125v107.5c0,8.86035 7.26465,16.125 16.125,16.125h107.5c8.86035,0 16.125,-7.26465 16.125,-16.125v-26.875l-10.75,10.75v16.125c0,3.02344 -2.35156,5.375 -5.375,5.375h-107.5c-3.02344,0 -5.375,-2.35156 -5.375,-5.375v-107.5c0,-3.02344 2.35156,-5.375 5.375,-5.375h107.5c3.02344,0 5.375,2.35156 5.375,5.375v16.125l10.75,10.75v-26.875c0,-8.86035 -7.26465,-16.125 -16.125,-16.125zM115.35254,43.25196l-7.64258,7.55859l24.43946,24.43945h-78.39942v10.75h78.39942l-24.43946,24.39746l7.64258,7.64258l37.37304,-37.41504z"></path></g></g>
 							</svg>
-						</router-link>
+						</button>
 					</li>
 				</ul>
 			</div>
