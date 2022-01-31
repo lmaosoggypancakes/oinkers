@@ -47,7 +47,7 @@ export const store = {
         },
 
         async getTransactions() {
-            const response = await axios.get(API_URL = "/transactions", t, {
+            const response = await axios.get(API_URL + "/transactions", t, {
                 headers: {
                     Authroization: `Bearer ${await store.token.getToken()}`
                 }
