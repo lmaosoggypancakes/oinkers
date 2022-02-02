@@ -148,21 +148,36 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from 'vue';
+import { router } from '../util/router';
 import { store } from '../util/store';
+import moment from 'moment'
 const emits = defineEmits(['navbarBlur'])
 import { computed, ref, watch } from 'vue'
 import Transaction from '../components/Transaction.vue';
 import Logo from '../components/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { calculate_balance, running_total } from '../util';
+
+const transactions = ref()
+const balance = computed(() => calculate_balance(transactions.value))
+onBeforeMount(async () => {
+    if (!(await store.token.isValid())) {
+        router.push("/login")
+    }
+    transactions.value = await store.transactions.getTransactions()
+    transactions.value.map(e => {
+        e.timestamp = moment(new Date(e.timestamp)).fromNow()
+    })
+    console.log(transactions.value);
+})
 // import { LineChart } from 'vue-chart-3'
 // import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
 // import { PointElement } from 'chart.js';
 // const editGoal = ref(false)
 const visible = ref(false)
 const edit_transation = ref(null)
-const transactions = ref(await store.transactions.getTransactions())
-const balance = computed(() => calculate_balance(transactions.value))
+
 // const validEdit = computed(() => edit_transation.value.name.length !== 0)
 // const goal = ref(parseInt(localStorage.getItem("__goal")))
 // console.log("Goal value: " + goal.value)

@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { router } from './util/router';
 import { store } from './util/store';
 const navbarBlur = ref(false)
-
-if (!store.token.isValid()) {
-	router.push("/login")
-}
-const logout = () => {
-	store.token.clearToken()
+const isLoggedIn = ref()
+onBeforeMount(async () => {
+	isLoggedIn.value = await store.token.isValid()
+})
+const logout = async () => {
+	await store.token.clearToken()
 	router.push("/login")
 }
 </script>
@@ -17,12 +17,12 @@ const logout = () => {
 	<div class="bg-primary text-white h-full relative" >
 		<div class="w-screen h-full relative grid grid-rows-6">
 			<div :class="{
-				'row-span-5':  store.token.isValid(),
-				'row-span-6': !store.token.isValid()
+				'row-span-5':  isLoggedIn,
+				'row-span-6': !isLoggedIn
 			}">
 				<router-view @navbarBlur="navbarBlur = !navbarBlur"></router-view>
 			</div>
-			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="store.token.isValid()">
+			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="isLoggedIn">
 				<ul class="flex flex-row justify-around w-full">
 					<li>
 						<router-link to="/account">

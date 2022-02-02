@@ -1,4 +1,5 @@
 export const calculate_balance = (transactions) => {
+    if (!(Symbol.iterator in Object(transactions))) return 0;
     console.log(transactions);
     let sum = 0
     for(let t of transactions) {

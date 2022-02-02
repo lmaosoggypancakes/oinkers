@@ -1,4 +1,5 @@
-
+// manages local strategy for logging in
+// validate method will check if the credentials provided are valid, if true return the user found, else throw a 401
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
@@ -9,7 +10,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super();
   }
-
+  // passport looks for a validate method that takes input for a username and password
   async validate(username: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(username, password);
     if (!user) {

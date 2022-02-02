@@ -16,9 +16,8 @@ export const store = {
         async clearToken() {
             await this.setToken("")
         },
-        isValid() {
-            console.log(this.getToken)
-            return !!this.getToken
+        async isValid() {
+            return !!(await this.getToken())
         }
     },
     transactions: {
@@ -47,15 +46,31 @@ export const store = {
         },
 
         async getTransactions() {
-            const response = await axios.get(API_URL + "/transactions", t, {
+            const url = API_URL + "transactions/" + (await store.user.getUsername())
+            console.log(url);
+            const response = await axios.get(url, {
                 headers: {
-                    Authroization: `Bearer ${await store.token.getToken()}`
+                    Authorization: `Bearer ${await store.token.getToken()}`
                 }
             }).catch(alert) 
             if (response.status == 200) {
-                return response.data.transactions
+                return response.data
             }
             return false
+        }
+    },
+    user: {
+        async setUsername(username) {
+            await Storage.set({
+                key: "__username",
+                value: username
+            })
+        },
+        async getUsername() {
+            const { value } = await Storage.get({
+                key: "__username"
+            })
+            return value
         }
     }
 }
