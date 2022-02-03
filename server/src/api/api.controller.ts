@@ -45,6 +45,13 @@ export class ApiController {
     @UseGuards(AuthGuard('jwt'))
     @Put('transactions/:id')
     async updateTransaction(@Param('id') id: number, @Body() data: Prisma.TransactionUpdateInput) {
+            delete data.timestamp
             return this.api.editTransaction(id, data)
+    }
+
+    // @UseGuards(AuthGuard('jwt'))
+    @Delete("transactions/:id")
+    async deleteTransactions(@Param('id') id: number) {
+        return await this.api.deleteTransaction(id)
     }
 }

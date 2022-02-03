@@ -22,25 +22,43 @@ export const store = {
     },
     transactions: {
         async addTransaction(t) {
-            const response = await axios.post(API_URL + "/transactions", t, {
+            t.user = {
+                connect: {
+                    username: await store.user.getUsername()
+                }
+            }
+            const response = await axios.post(API_URL + "transactions", t, {
                 headers: {
-                    Authroization: `Bearer ${await store.token.getToken()}`                    
+                    Authorization: `Bearer ${await store.token.getToken()}`                    
                 }
             }).catch(alert)
             if (response.status == 200) {
-                return response.data.transactions
+                console.log(response.data);
+                return response.data
             } 
             return false
         },
 
-        async removeTrasaction(t) {
-            const response = await axios.delete(API_URL + "/transactions", t, {
+
+        async editTransaction(t) {
+            const response = await axios.put(API_URL + "transactions/" + t.id, t, {
                 headers: {
-                    Authroization: `Bearer ${await store.token.getToken()}`
+                    Authorization: `Bearer ${await store.token.getToken()}`
+                }
+            }).catch(alert)
+            return response.data
+        },
+        async removeTrasaction(t) {
+            console.log("Transaction to be removed: ");
+            console.table(t)
+            const response = await axios.delete(API_URL + "transactions/" + t.id, {
+                headers: {
+                    Authorization: `Bearer ${await store.token.getToken()}`
                 }
             }).catch(alert)
             if (response.status == 200) {
-                return response.data.transactions
+                console.log(response.data);
+                return response.data
             }
             return false
         },

@@ -27,18 +27,23 @@ const username = ref("")
 const password = ref("")
 
 const login = async () => {
-    const req = await axios.post(LOGIN_URL, {
-            username: username.value,
-            password: password.value
-        }).catch(e => {
-            alert("Invalid Login :(")
-        })
-    console.log(req);
-    if (req.status == 201) // ok
-    {
-        await store.user.setUsername(username.value)
-        await store.token.setToken(req.data.access_token);
-        router.push("/")
+    try {
+        const req = await axios.post(LOGIN_URL, {
+                username: username.value,
+                password: password.value
+            })
+        console.log(req);
+        if (req.status == 201) // ok
+        {
+            await store.user.setUsername(username.value)
+            await store.token.setToken(req.data.access_token);
+            router.push("/")
+        }
+    } catch(err) {
+        alert("Invalid login :(")
+        username.value = ""
+        password.value = ""
     }
+
 }
 </script>

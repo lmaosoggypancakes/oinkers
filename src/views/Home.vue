@@ -52,7 +52,7 @@
             </div>
             <div class="flex flex-row justify-around pt-2">
                 <button
-                    @click="removeTransaction"
+                    @click="removeTransaction(edit_transation)"
                     class="border-2 border-dark_yellow rounded-md p-4"
                 >
                     <svg
@@ -164,6 +164,7 @@ const balance = computed(() => calculate_balance(transactions.value))
 onBeforeMount(async () => {
     if (!(await store.token.isValid())) {
         router.push("/login")
+        return
     }
     transactions.value = await store.transactions.getTransactions()
     transactions.value.map(e => {
@@ -243,21 +244,25 @@ const openModal = (t, create = false) => {
     edit_transation.value = t;
 }
 
-const createTransaction = () => {
+const createTransaction = async () => {
     if (edit_transation.value.create) {
         delete edit_transation.value.create
-        store.transactions.addTransaction(edit_transation)
+        await store.transactions.addTransaction(edit_transation.value)
+    } else {
+        await store.transactions.editTransaction(edit_transation.value)
     }
     closeModal()
+    router.go(router.currentRoute.value)
 }
 const closeModal = () => {
     emits('navbarBlur')
     visible.value = false;
     edit_transation.value = null
 }
-const removeTransaction = (t) => {
-    store.transactions.removeTrasaction(t)
+const removeTransaction = async (t) => {
+    await store.transactions.removeTrasaction(t)
     closeModal()
+    router.go(router.currentRoute.value)
 }
 
 </script> 

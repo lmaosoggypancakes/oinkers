@@ -81,4 +81,18 @@ export class ApiService {
             throw new NotFoundException()
         }
     }
+
+    async deleteTransaction(where: any) {
+        where = parseInt(where)
+        try {
+            return await this.prisma.transaction.delete({
+                where: {
+                    id: where
+                }
+            })
+        } catch(err) {
+            console.error(err)
+            throw new NotFoundException()
+        }
+    }
 }
