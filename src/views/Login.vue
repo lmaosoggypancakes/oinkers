@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full p-8">
         <div class="border-2 border-white w-full h-full p-8">
-            <span class="text-3xl text-center w-full block">Login</span>
+            <span class="text-3xl text-center w-full block font-bold">Login</span>
             <form @submit.prevent="login" class="flex flex-col h-full">
                 <div class="my-10">
                     <label class="block text-xl">Username</label>
