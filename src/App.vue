@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
+import { onBeforeRouteUpdate } from 'vue-router';
 import { router } from './util/router';
 import { store } from './util/store';
 const navbarBlur = ref(false)
@@ -8,9 +9,13 @@ onBeforeMount(async () => {
 	isLoggedIn.value = await store.token.isValid()
 })
 const logout = async () => {
+	isLoggedIn.value = false
 	await store.token.clearToken()
 	router.push("/login")
 }
+onBeforeRouteUpdate(async () => {
+	isLoggedIn.value = await store.token.isValid()
+})
 </script>
 
 <template>
@@ -20,7 +25,7 @@ const logout = async () => {
 				'row-span-5':  isLoggedIn,
 				'row-span-6': !isLoggedIn
 			}">
-				<router-view @navbarBlur="navbarBlur = !navbarBlur"></router-view>
+				<router-view @navbarBlur="navbarBlur = !navbarBlur" @login="isLoggedIn = true"></router-view>
 			</div>
 			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="isLoggedIn">
 				<ul class="flex flex-row justify-around w-full">

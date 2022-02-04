@@ -25,7 +25,7 @@ import { store } from '../util/store';
 import { router } from '../util/router';
 const username = ref("")
 const password = ref("")
-
+const emits = defineEmits(['login'])
 const login = async () => {
     try {
         const req = await axios.post(LOGIN_URL, {
@@ -38,6 +38,7 @@ const login = async () => {
             await store.user.setUsername(username.value)
             await store.token.setToken(req.data.access_token);
             router.push("/")
+            emits('login')
         }
     } catch(err) {
         alert("Invalid login :(")
