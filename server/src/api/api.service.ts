@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { User, Transaction, Prisma, prisma } from '@prisma/client'
 @Injectable()
@@ -12,6 +12,9 @@ export class ApiService {
         throw new NotFoundException()
     }
     async createUser(data: Prisma.UserCreateInput): Promise<User> {    
+        if (!data.username) {
+            throw new BadRequestException("Username must be provided.")
+        }
         data.username = data.username.replaceAll(' ', '_')
         try {
             return await this.prisma.user.create({
@@ -19,7 +22,7 @@ export class ApiService {
             })
         } catch(err) {
             console.error(err)
-            throw new UnprocessableEntityException()
+            throw new UnprocessableEntityException("Username already exists or unknown error.")
         }
     }
     async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {

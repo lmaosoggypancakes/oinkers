@@ -2,8 +2,8 @@
     <div class="w-full h-full p-8">
         <div class="border-2 border-white w-full h-full p-8">
             <span class="text-3xl text-center w-full block font-bold">Login</span>
-            <form @submit.prevent="login" class="flex flex-col h-full">
-                <div class="my-10">
+            <form @submit.prevent="login" class="flex flex-col h-full justify-around">
+                <div>
                     <label class="block text-xl">Username</label>
                     <input type="text" v-model="username" class="h-10 bg-white outline-0 focus:bg-primary rounded-lg px-2 text-primary hover:text-white w-full"/>
                 </div>
@@ -11,14 +11,17 @@
                     <label class="block text-xl">Password</label>
                     <input type="password" v-model="password" class="h-10 bg-white outline-0 focus:bg-primary text-primary focus:text-white rounded-lg px-2 w-full"/>
                 </div>
-                <button class="w-full p-2 text-center my-10 border-white border-2 rounded-lg focus:border-primary focus:text-primary focus:bg-white">Login</button>
+                <div>
+                    <button class="w-full p-2 text-center border-white border-2 rounded-lg focus:border-primary focus:text-primary focus:bg-white disabled:blur-sm" :disabled="!(username && password)">Login</button>
+                </div>
             </form>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { Dialog } from "@capacitor/dialog"
+import { onBeforeMount, ref } from 'vue';
 import axios from 'axios'
 import { API_URL, LOGIN_URL } from '../config';
 import { store } from '../util/store';
@@ -41,7 +44,10 @@ const login = async () => {
             emits('login')
         }
     } catch(err) {
-        alert("Invalid login :(")
+        await Dialog.alert({
+            title: "Invalid Login :(",
+            message: "The credentials you provided were invalid."
+        })
         username.value = ""
         password.value = ""
     }

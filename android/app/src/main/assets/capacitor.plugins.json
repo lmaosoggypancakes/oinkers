@@ -1,5 +1,13 @@
 [
 	{
+		"pkg": "@capacitor-community/date-picker",
+		"classpath": "com.getcapacitor.community.datepicker.DatePickerPlugin"
+	},
+	{
+		"pkg": "@capacitor/dialog",
+		"classpath": "com.capacitorjs.plugins.dialog.DialogPlugin"
+	},
+	{
 		"pkg": "@capacitor/storage",
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
 	}

@@ -25,6 +25,7 @@
                     />
                 </ul>
             </div>
+            <LineChart v-if="chartData" :data="chartData" :config="chartConfig" />
         </div>
     </div>
     <Modal :toggled="visible" @close="closeModal">
@@ -45,6 +46,7 @@
             <div>
                 <label class="text-center w-full block text-lg">Amount</label>
                 <input
+                    @keydown="lol"
                     type="number"
                     v-model="edit_transation.amount"
                     class="outline-0 my-1 bg-primary rounded-md border-2 border-white h-10 w-full text-white px-2 font-bold"
@@ -148,7 +150,8 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { Dialog } from "@capacitor/dialog"
+import { onBeforeMount, toRefs } from 'vue';
 import { router } from '../util/router';
 import { store } from '../util/store';
 import moment from 'moment'
@@ -158,7 +161,12 @@ import Transaction from '../components/Transaction.vue';
 import Logo from '../components/Logo.vue'
 import Modal from '../components/Modal.vue'
 import { calculate_balance, running_total } from '../util';
-
+Chart.register(LineController, PointElement, LineElement, CategoryScale, LinearScale)
+Chart.defaults.color = '#EBDBB2'
+Chart.defaults.font.family = 'JetBrains Mono'
+Chart.defaults.font.size = 12
+Chart.defaults.elements.line.borderColor = '#D79921'
+Chart.defaults.scale.beginAtZero = true
 const transactions = ref()
 const balance = computed(() => calculate_balance(transactions.value))
 onBeforeMount(async () => {
@@ -170,40 +178,8 @@ onBeforeMount(async () => {
     transactions.value.map(e => {
         e.timestamp = moment(new Date(e.timestamp)).fromNow()
     })
-    console.log(transactions.value);
-})
-// import { LineChart } from 'vue-chart-3'
-// import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
-// import { PointElement } from 'chart.js';
-// const editGoal = ref(false)
-const visible = ref(false)
-const edit_transation = ref(null)
-
-// const validEdit = computed(() => edit_transation.value.name.length !== 0)
-// const goal = ref(parseInt(localStorage.getItem("__goal")))
-// console.log("Goal value: " + goal.value)
-// const metGoal = computed(() => balance.value >= goal.value)
-// const goalLine = computed(() => {
-//     let ret = []
-//     for (let i in transactions.value) {
-//         console.log('asdfdas');
-//         ret.push(goal.value)
-//     }
-//     return ret
-// })
 
 
-
-
-// Chart.register(LineController, PointElement, LineElement, CategoryScale, LinearScale)
-// Chart.defaults.color = '#EBDBB2'
-// Chart.defaults.font.family = 'JetBrains Mono'
-// Chart.defaults.font.size = 12
-// Chart.defaults.elements.line.borderColor = '#D79921'
-// Chart.defaults.scale.beginAtZero = true
-// const watcher = watch(goal, (e, _e) => {
-//     localStorage.setItem("__goal", e)
-// })
 // const chartData = computed(() => {
 //     return {
 //         labels: transactions.value.map(t => t.timestamp),
@@ -212,10 +188,6 @@ const edit_transation = ref(null)
 //                 data: running_total(transactions.value),
 //                 backgroundColor: ['#D79921']
 //             },
-//             {
-//                 data: goalLine.value,
-//                 borderColor: '#83A598',
-//             }
 //         ],
 //     }
 // })
@@ -235,6 +207,20 @@ const edit_transation = ref(null)
 //         }
 //     }
 // })
+
+
+
+})
+import { LineChart } from 'vue-chart-3'
+import { CategoryScale, Chart, LinearScale, LineController, LineElement } from 'chart.js'
+import { PointElement } from 'chart.js';
+const visible = ref(false)
+const edit_transation = ref(null)
+const lol = () => {
+    edit_transation.value.amount = Math.trunc(edit_transation.value.amount * 10) / 10
+}
+
+
 const openModal = (t, create = false) => {
     emits('navbarBlur')
     visible.value = true;
@@ -243,7 +229,6 @@ const openModal = (t, create = false) => {
     }
     edit_transation.value = t;
 }
-
 const createTransaction = async () => {
     if (edit_transation.value.create) {
         delete edit_transation.value.create
@@ -260,9 +245,14 @@ const closeModal = () => {
     edit_transation.value = null
 }
 const removeTransaction = async (t) => {
-    await store.transactions.removeTrasaction(t)
-    closeModal()
-    router.go(router.currentRoute.value)
+    if (await Dialog.confirm({
+        title: "Confirm deletion",
+        message: "Are you sure you want to delete this transaction? It will be gone forever (a very long time)!"
+    })) {
+        await store.transactions.removeTrasaction(t)
+        closeModal()
+        router.go(router.currentRoute.value)
+    }
 }
 
 </script> 
