@@ -1,4 +1,5 @@
 <script setup>
+window.screen.orientation.lock('portrait')
 import { onBeforeMount, ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { router } from './util/router';

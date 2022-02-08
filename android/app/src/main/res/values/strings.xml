@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Oinkers</string>
+    <string name="title_activity_main">Oinkers</string>
+    <string name="package_name">me.josefmacera.oinkers</string>
+    <string name="custom_url_scheme">me.josefmacera.oinkers</string>
+</resources>

@@ -19,6 +19,7 @@
     "@capacitor/storage": "^1.2.4",
     "axios": "^0.25.0",
     "chart.js": "^3.7.0",
+    "cordova-plugin-screen-orientation": "^3.0.2",
     "moment": "^2.29.1",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.25",
