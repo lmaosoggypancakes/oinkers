@@ -2,6 +2,7 @@ import { Controller, Get, Post, Request, Put, Delete, Param, Body, UseGuards, No
 import { AuthGuard } from "@nestjs/passport";
 import { Prisma, User } from "@prisma/client";
 import { NotFoundError } from "rxjs";
+import { hash } from "src/util";
 import { ApiService } from "./api.service";
 
 @Controller('api')
@@ -9,6 +10,7 @@ export class ApiController {
     constructor(private api: ApiService){}
     @Post('users')
     async createUser(@Body() data: Prisma.UserCreateInput) {
+        data.password = await hash(data.password)
         return await this.api.createUser(data)
     }
 
@@ -55,5 +57,13 @@ export class ApiController {
     @Delete("transactions/:id")
     async deleteTransactions(@Param('id') id: number) {
         return await this.api.deleteTransaction(id)
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Delete("users/:username")
+    async deleteUser(@Param('username') username: string) {
+        return await this.api.deleteUser({
+            username: username
+        })
     }
 }

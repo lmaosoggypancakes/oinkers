@@ -14,7 +14,7 @@ user: {
     }
 }
 ```
-- Viewing user transactions - `GET /api/transactions/<username>`
+- Viewing user transactions - `GET /api/transactions/<username>` { no body }
 - Editing a transaction - `PUT /api/transactions/<id>`
 ```
 {
