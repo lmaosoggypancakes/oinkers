@@ -5,7 +5,7 @@
             <form @submit.prevent="login" class="flex flex-col h-full justify-around">
                 <div>
                     <label class="block text-xl">Username</label>
-                    <input type="text" v-model="username" class="h-10 bg-white outline-0 focus:bg-primary rounded-lg px-2 text-primary hover:text-white w-full"/>
+                    <input type="text" autocapitalize="none" v-model="username" class="h-10 bg-white outline-0 focus:bg-primary rounded-lg px-2 text-primary hover:text-white w-full"/>
                 </div>
                 <div> 
                     <label class="block text-xl">Password</label>

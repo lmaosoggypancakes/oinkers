@@ -19,7 +19,9 @@
                         type="password"
                         class="w-full bg-white border-white text-primary hover:bg-primary hover:text-white border-2 outline-none p-2 rounded-lg"
                         v-model="user.password"
+                        v-if="edit_password"
                     />
+                    <button v-else type="button" @click="editPassword" class="w-full bg-primary border-white text-dark_yellow font-bold border-2 outline-none p-2 rounded-lg">Change Password</button>
                 </div>
                 <div>
                     <label class="block text-xl py-2 text-brown_green">Birthday</label>
@@ -92,7 +94,8 @@ import { store } from '../util/store';
 import moment from 'moment';
 import { router } from '../util/router';
 import Modal from '../components/Modal.vue';
-const emits = defineEmits(['navbarBlur'])
+const emits = defineEmits(['navbarBlur', 'login'])
+const edit_password = ref(false)
 const visible = ref(false)
 const loading = ref(true)
 const _date = computed(() => {
@@ -105,6 +108,10 @@ onBeforeMount(async () => {
     user.value = response.data
     loading.value = false
 })
+const editPassword = () => {
+    edit_password.value = true
+    user.value.password = ''
+}
 const saveUser = async () => {
     delete user.value.id
     user.value.birthday = moment(user.value.birthday).toISOString()
@@ -119,10 +126,12 @@ const saveUser = async () => {
     else {
         await Dialog.alert({
             title: "Success! :)",
-            message: "Your account changes have been saved.",
+            message: "Your account changes have been saved. Please log back in!",
             
         })
-        await store.user.setUsername(user.value.username)
+        await store.user.setUsername('')
+        await store.token.clearToken()
+        emits('login')
         router.push("/")
     }
 }
