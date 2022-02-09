@@ -39,6 +39,7 @@ export class ApiController {
     @UseGuards(AuthGuard('jwt'))
     @Put('users/:username')
     async updateUser(@Param('username') username: string, @Body() data: Prisma.UserUpdateInput) {
+            data.password = await hash(data.password as string)
             return await this.api.updateUser(
                 {
                     username: username
