@@ -12,7 +12,7 @@ export class AuthService {
         const user = await this.api.getUser({
             username: username
         })
-        if (user && isValid(password, user.password)) {
+        if (user && await isValid(password, user.password)) {
             return user
         }
         return null
