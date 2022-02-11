@@ -4,9 +4,9 @@
     }" v-if="!loading">
         <div class="w-full h-full p-8 border-2 border-white flex flex-col">
             <span class="block text-center text-3xl font-bold">Your Account</span>
-            <form class="h-full flex flex-col justify-around" @submit.prevent="saveUser">
+            <form class="h-full flex flex-col justify-around overflow-scroll" @submit.prevent="saveUser">
                 <div>
-                    <label class="block text-xl py-2 text-brown_green">Username</label>
+                    <label class="block text-xl text-brown_green">Username</label>
                     <input
                         type="text"
                         class="w-full bg-white border-white text-primary hover:bg-primary hover:text-white border-2 outline-none p-2 rounded-lg"
@@ -14,7 +14,7 @@
                     />
                 </div>
                 <div>
-                    <label class="block text-xl py-2 text-brown_green">Password</label>
+                    <label class="block text-xl text-brown_green">Password</label>
                     <input
                         type="password"
                         class="w-full bg-white border-white text-primary hover:bg-primary hover:text-white border-2 outline-none p-2 rounded-lg"
@@ -24,9 +24,9 @@
                     <button v-else type="button" @click="editPassword" class="w-full bg-primary border-white text-dark_yellow font-bold border-2 outline-none p-2 rounded-lg">Change Password</button>
                 </div>
                 <div>
-                    <label class="block text-xl py-2 text-brown_green">Birthday</label>
-                    <div class="flex flex-row gap-4">
-<p
+                    <label class="block text-xl text-brown_green">Birthday</label>
+                    <div class="flex flex-row space-x-4">
+                        <p
                         class="border-white border-2 p-2 rounded-lg w-3/4  text-center flex items-center justify-center"
                     >{{ _date }}</p>
                     <button class="border-white border-2 p-2 rounded-lg w-1/4 flex items-center" type="button" @click="openModal">
@@ -72,7 +72,7 @@
             </form>
         </div>
     </div>
-    <div class="h-full w-full flex flex-col items-center justify-center">
+    <div class="h-full w-full flex flex-col items-center justify-center" v-if="loading">
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="animate-spin"
 width="64" height="64"
 viewBox="0 0 172 172"

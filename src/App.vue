@@ -29,7 +29,7 @@ onBeforeRouteUpdate(async () => {
 				<router-view @navbarBlur="navbarBlur = !navbarBlur" @login="isLoggedIn = true"></router-view>
 			</div>
 			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="isLoggedIn">
-				<ul class="flex flex-row justify-around w-full">
+				<ul class="flex flex-row justify-between w-full overflow-hidden">
 					<li>
 						<router-link to="/account">
 							<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
