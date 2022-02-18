@@ -20,7 +20,7 @@ onBeforeRouteUpdate(async () => {
 
 <template>
 	<div class="bg-primary text-white h-full relative" >
-		<div class="w-screen h-full relative grid grid-rows-6">
+		<div class="w-full h-full relative grid grid-rows-6">
 			<div :class="{
 				'row-span-5':  isLoggedIn,
 				'row-span-6': !isLoggedIn
