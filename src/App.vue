@@ -77,6 +77,7 @@ body {
 	@apply visible z-50;
 }
 
+
 #app {
 	height: 100vh;
 }

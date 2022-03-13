@@ -1,6 +1,0 @@
-{
-	"appId": "me.josefmacera.oinkers",
-	"appName": "Oinkers",
-	"webDir": "dist/",
-	"bundledWebRuntime": false
-}
