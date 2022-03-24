@@ -25,7 +25,7 @@ onBeforeRouteUpdate(async () => {
 				'row-span-5':  isLoggedIn,
 				'row-span-6': !isLoggedIn
 			}">
-				<router-view @navbarBlur="navbarBlur = !navbarBlur" @login="isLoggedIn = true"></router-view>
+				<router-view @navbarBlur="navbarBlur = !navbarBlur" @login="isLoggedIn = !isLoggedIn"></router-view>
 			</div>
 			<div class="row-span-1 px-4 w-screen bg-primary flex flex-col justify-center" id="navbar" :class="{ 'blur-md': navbarBlur}"  v-if="isLoggedIn">
 				<ul class="flex flex-row justify-between w-full overflow-hidden">

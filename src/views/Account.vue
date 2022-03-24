@@ -17,11 +17,10 @@
                     <label class="block text-xl text-brown_green">Password</label>
                     <input
                         type="password"
-                        class="w-full bg-white border-white text-primary hover:bg-primary hover:text-white border-2 outline-none p-2 rounded-lg"
+                        class="w-full bg-white border-white text-primary hover:bg-primary hover:text-white border-2 outline-none p-2 rounded-lg placeholder-shown:border-danger placeholder-shown:border-4 placeholder:text-primary placeholder:text-xs"
                         v-model="user.password"
-                        v-if="edit_password"
+                        placeholder="Change password to save changes"
                     />
-                    <button v-else type="button" @click="editPassword" class="w-full bg-primary border-white text-dark_yellow font-bold border-2 outline-none p-2 rounded-lg">Change Password</button>
                 </div>
                 <div>
                     <label class="block text-xl text-brown_green">Birthday</label>
@@ -106,13 +105,11 @@ onBeforeMount(async () => {
     const response = await axios.get(API_URL + "users/" + await store.user.getUsername())
     response.data.birthday = moment(response.data.birthday).calendar()
     user.value = response.data
+    user.value.password = ""
     loading.value = false
 })
-const editPassword = () => {
-    edit_password.value = true
-    user.value.password = ''
-}
 const saveUser = async () => {
+    console.log(user.value)
     delete user.value.id
     user.value.birthday = moment(user.value.birthday).toISOString()
     const result = await axios.put(API_URL + "users/" + await store.user.getUsername(), user.value, {

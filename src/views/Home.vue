@@ -269,10 +269,10 @@ const closeModal = () => {
     edit_transation.value = null
 }
 const removeTransaction = async (t) => {
-    if (await Dialog.confirm({
+    if ((await Dialog.confirm({
         title: "Confirm deletion",
         message: "Are you sure you want to delete this transaction? It will be gone forever (a very long time)!"
-    })) {
+    })).value) {
         await store.transactions.removeTrasaction(t)
         closeModal()
         router.go(router.currentRoute.value)
